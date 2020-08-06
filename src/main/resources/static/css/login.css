@@ -1,0 +1,75 @@
+.header {
+    background-color: #4267b2;
+    border-bottom: 1px solid #303030;
+    color: white;
+    height: 80px !important;
+    top: 0px;
+    min-width: 992px;
+}
+.header-title {
+    font-size: 50px;
+    font-weight: bold;
+}
+
+.header .login-form {
+    display: flex;
+    float: right;
+    height: 70px;
+    align-items: center;
+
+}
+
+.join-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    float: right;
+    top: 100px;
+    height: 100px;
+    width: 45%;
+}
+
+.join-container .join-form {
+    display: flex;
+    flex-direction: column;
+}
+
+.join-input {
+    font-size: 18px;
+    height: 40px;
+    width: 377px;
+    margin-top: 20px;
+    border-width: thin;
+    border-color: #bdc7d8;
+    border-radius: 5px
+}
+
+
+.div-birthday {
+    margin-top: 10px;
+}
+
+.div-birthday .join-span-birthday {
+    margin-top: 10px;
+    width: 200px;
+    display: flex;
+    flex-direction: row;
+}
+
+.div-birthday .birthday-select {
+    width: 100px;
+    height: 30px;
+}
+
+.div-gender {
+    display: flex;
+    flex-direction: column;
+}
+.label-gender {
+    font-size: 25px;
+}
+.submit-join {
+    width: 250px;
+    height: 40px;
+    margin-top: 10px
+}
