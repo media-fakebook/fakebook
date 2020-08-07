@@ -5,7 +5,6 @@ import com.fakebook.fakebook.member.web.dto.MemberRegisterRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.NestedServletException;
-
 import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping("/member")

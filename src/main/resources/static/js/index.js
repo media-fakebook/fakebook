@@ -1,4 +1,4 @@
-let login = {
+let index = {
     init: function () {
         let _this = this;
         _this.initJoin();
@@ -84,4 +84,4 @@ let login = {
         })
     },
 }
-login.init();
+index.init();

@@ -1,14 +1,14 @@
-package com.fakebook.fakebook.member;
+package com.fakebook.fakebook.member.service;
 
 import com.fakebook.fakebook.member.domain.Gender;
 import com.fakebook.fakebook.member.web.dto.MemberRegisterRequestDto;
 import com.fakebook.fakebook.member.domain.MemberRepository;
 import com.fakebook.fakebook.member.exception.DuplicatedUserIdException;
-import com.fakebook.fakebook.member.service.MemberService;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.web.util.NestedServletException;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -23,7 +23,7 @@ public class MemberServiceTest {
     private MemberRepository memberRepository;
 
     @AfterEach
-    private void setUp() {
+    private void cleanUp() {
         memberRepository.deleteAll();
     }
 
@@ -72,5 +72,28 @@ public class MemberServiceTest {
         //then
         assertThatExceptionOfType(DuplicatedUserIdException.class)
                 .isThrownBy(() -> memberService.register(newMember));
+    }
+
+    @Test
+    void 회원가입시_패스워드_암호화_동작_확인() throws NestedServletException {
+        //given
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        String rawPassword = "testPassword";
+
+        MemberRegisterRequestDto registerRequestDto = new MemberRegisterRequestDto();
+        registerRequestDto.setUserId("testId");
+        registerRequestDto.setPassword(rawPassword);
+        registerRequestDto.setName("dongheon");
+        registerRequestDto.setBirthdayYear(1995);
+        registerRequestDto.setBirthdayMonth(8);
+        registerRequestDto.setBirthdayDay(22);
+        registerRequestDto.setGender(Gender.MALE);
+
+        //when
+        memberService.register(registerRequestDto);
+        String encodedPassword = memberRepository.findByUserId("testId").get().getPassword();
+
+        //then
+        assertThat(rawPassword).isNotEqualTo(encodedPassword);
     }
 }

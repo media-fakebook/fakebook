@@ -9,7 +9,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
-@EqualsAndHashCode(exclude = "id")
+@EqualsAndHashCode(exclude = {"id", "password" })
 @NoArgsConstructor
 @Entity
 public class Member {
@@ -29,16 +29,22 @@ public class Member {
     @Column(name = "birthday", nullable = false)
     private LocalDate birthday;
 
-    @Column(name = "gender")
+    @Enumerated(EnumType.STRING)
+    @Column(name = "gender", nullable = false)
     private Gender gender;
+
+    @Enumerated(EnumType.STRING)
+    @Column(name = "role", nullable = false)
+    private Role role;
 
     @Builder
     public Member(String userId, String password, String name,
-                  LocalDate birthday, Gender gender) {
+                  LocalDate birthday, Gender gender, Role role) {
         this.userId = userId;
         this.password = password;
         this.name = name;
         this.birthday = birthday;
         this.gender = gender;
+        this.role = role;
     }
 }

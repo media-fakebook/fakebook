@@ -2,9 +2,11 @@ package com.fakebook.fakebook.member.web.dto;
 
 import com.fakebook.fakebook.member.domain.Gender;
 import com.fakebook.fakebook.member.domain.Member;
+import com.fakebook.fakebook.member.domain.Role;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 
@@ -12,6 +14,9 @@ import java.time.LocalDate;
 @Setter
 @Getter
 public class MemberRegisterRequestDto {
+    private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+    private static final Role defaultRole = Role.USER;
+
     private String userId;
 
     private String password;
@@ -29,10 +34,11 @@ public class MemberRegisterRequestDto {
     public Member toEntity() {
         return Member.builder()
                 .userId(userId)
-                .password(password)
+                .password(passwordEncoder.encode(password))
                 .name(name)
                 .birthday(LocalDate.of(birthdayYear, birthdayMonth, birthdayDay))
                 .gender(gender)
+                .role(defaultRole)
                 .build();
     }
 }
