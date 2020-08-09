@@ -1,282 +1,75 @@
-#wootecobook-app {
-    min-width: 992px;
-}
-
-header ul.nav-right li,
-header ul.nav-left li {
-    height: 43px;
-}
-
-img {
-    max-width: 500px;
-}
-
 .header {
     background-color: #4267b2;
     border-bottom: 1px solid #303030;
     color: white;
-    height: 43px !important;
+    height: 80px !important;
     top: 0px;
     min-width: 992px;
 }
-
-.logo {
-    background-repeat: no-repeat;
-    -webkit-background-size: 283px 396px;
-    background-size: 283px 396px;
-    background-position: -125px -304px;
-    height: 24px;
-    outline: none;
-    overflow: hidden;
-    text-indent: -999px;
-    white-space: nowrap;
-    width: 24px;
-    position: absolute;
-    top: 9px;
+.header-title {
+    font-size: 50px;
+    font-weight: bold;
 }
 
-.header .header-container .nav-left > li > a,
-.header .header-container .nav-right > li > a {
-    min-height: 43px;
-}
-
-.search-container {
-    position: absolute;
-    top: 1px;
-    left: 50px;
-}
-
-.search {
-    border-radius: 3px;
-    background: white;
-}
-
-.searchbox {
-    width: 400px;
-    height: 18px;
-    position: absolute;
-    top: 3px;
-    left: 7px;
-    border: 0 none white;
-    border-radius: 3px;
-    height: 25px;
-    margin: 5px;
-    padding: 3px 10px;
-    font-size: 10pt;
-    outline-style: none;
-}
-
-.search-btn {
-    width: 27px;
-    height: 17px;
-    position: absolute;
-    top: 12px;
-    left: 383px;
-    background: none;
-    background-image: url('../images/default/icons.png');
-    background-position: -26px -202px;
-    border-style: none;
-    border-left: 1px solid rgb(220, 220, 220);
-}
-
-.user-profile {
-    height: 43px;
-}
-
-.profile-img {
-    width: 24px;
-    height: 24px;
-}
-
-.friend-btn {
-    background-size: 283px 396px;
-    background-position: 0 -354px;
-}
-
-.message-btn {
-    background-size: 283px 396px;
-    background-position: -50px -354px;
-}
-
-.notification-btn {
-    background-size: 283px 396px;
-    background-position: -175px -329px;
-}
-
-.friend-btn,
-.message-btn,
-.notification-btn {
-    background-image: url('../images/default/icons.png');
-    background-repeat: no-repeat;
-    height: 24px;
-    width: 24px;
-}
-
-.story-user-list {
-    height: 55px;
-    width: 100%;
-}
-
-.bg-lightgray {
-    background-color: #f5f6f7;
-}
-
-.flex-grow-1 {
-    flex-grow: 1;
-}
-
-.left {
-    position: relative;
-    display: block;
-    float: left;
-    word-wrap: break-word;
-}
-
-.left-profile {
-    display: block;
-    height: 25px;
-    word-wrap: break-word;
-}
-
-.left-photo {
-    height: 38px !important;
-    width: 38px !important;
-    margin-right: 8px;
-    border-radius: 4px;
-    border: 1px solid rgba(0, 0, 0, 0.1);
-}
-
-.left-name-edit {
-    width: 130px;
+.header .login-form {
+    display: flex;
     float: right;
-    clear: left;
-    display: block;
-    padding-top: 4px;
+    height: 70px;
+    align-items: center;
+
 }
 
-.left-name {
-    height: 17px;
-    width: 112px;
-    font-size: 13px;
-    font-weight: bold;
-    letter-spacing: -0.5px;
-    text-decoration: none;
-    display: block;
-}
-
-.left-name:hover {
-    font-weight: bold;
-    text-decoration: underline;
-    display: block;
-}
-
-.left-edit {
-    height: 17px;
-    width: 112px;
-    display: block;
-}
-
-.left-edit:hover {
-    height: 17px;
-    width: 112px;
-    text-decoration: underline;
-    display: block;
-}
-
-.left-sub-menus {
+.join-container {
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    float: right;
+    top: 100px;
     height: 100px;
-    width: 164px;
-    margin: 12px 0;
-    padding: 0;
-    list-style-type: none;
+    width: 45%;
 }
 
-.left-sub-sub-menus {
-    height: 24px;
-    width: 164px;
+.join-container .join-form {
+    display: flex;
+    flex-direction: column;
 }
 
-.left-sub-sub-menus:hover {
-    height: 24px;
-    width: 164px;
-    font-weight: bold;
-    background-color: rgba(203, 204, 207, 0.4);
+.join-input {
+    font-size: 18px;
+    height: 40px;
+    width: 377px;
+    margin-top: 20px;
+    border-width: thin;
+    border-color: #bdc7d8;
+    border-radius: 5px
 }
 
-.icons {
-    height: 20px;
-    width: 20px;
-    margin: 3.5px;
-    vertical-align: middle;
-    display: inline-block;
-    background-image: url('../images/default/icons2.png');
-    background-repeat: no-repeat;
+
+.div-birthday {
+    margin-top: 10px;
 }
 
-.icon-name {
-    vertical-align: middle;
+.div-birthday .join-span-birthday {
+    margin-top: 10px;
+    width: 200px;
+    display: flex;
+    flex-direction: row;
 }
 
-.icons.newspeed {
-    background-position: 0 -711px;
-    background-size: 37px 1608px;
+.div-birthday .birthday-select {
+    width: 100px;
+    height: 30px;
 }
 
-.icons.message {
-    background-position: 0 -186px;
-    background-size: 37px 1608px;
+.div-gender {
+    display: flex;
+    flex-direction: column;
 }
-
-.icons.watch {
-    background-position: 0 -1110px;
-    background-size: 37px 1608px;
+.label-gender {
+    font-size: 25px;
 }
-
-.icons.group {
-    background-position: 0 -879px;
-    background-size: 37px 1608px;
-}
-
-.icons.photo-video {
-    background-position: 0 -837px;
-    background-size: 37px 1608px;
-}
-
-.icons.tag-friend {
-    background-position: 0 -543px;
-    background-size: 37px 1608px;
-}
-
-.icons.feeling-activity {
-    background-position: 0 -501px;
-    background-size: 37px 1608px;
-}
-
-.left-group-title {
-    font-weight: bold;
-    color: #616770;
-}
-
-.resize-none {
-    resize: none;
-}
-
-.border-radius-18 {
-    border-radius: 18px;
-}
-
-.text-link-color {
-    color: #385898 !important;
-}
-
-.nav-right .user-profile .profile-img {
-    width: 25px !important;
-    height: 25px !important;
-    float: none !important;
-}
-
-.header .header-container .nav-left > li > a,
-.header .header-container .nav-right > li > a {
-    line-height: 43px;
-    min-height: 43px;
+.submit-join {
+    width: 250px;
+    height: 40px;
+    margin-top: 10px
 }
