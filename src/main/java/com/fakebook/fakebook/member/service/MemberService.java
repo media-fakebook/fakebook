@@ -1,6 +1,8 @@
 package com.fakebook.fakebook.member.service;
 
+import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.member.domain.MemberRepository;
+import com.fakebook.fakebook.member.exception.DoesNotExistingUserIdException;
 import com.fakebook.fakebook.member.web.dto.MemberRegisterRequestDto;
 import com.fakebook.fakebook.member.exception.DuplicatedUserIdException;
 import lombok.RequiredArgsConstructor;
@@ -22,6 +24,10 @@ public class MemberService {
         return repository.save(requestDto.toEntity()).getId();
     }
 
+    public Member findByUserId(String userId) {
+        return repository.findByUserId(userId)
+                .orElseThrow(()->new DoesNotExistingUserIdException(userId));
+    }
     private boolean isExistingUserId(String userId) {
         return repository.findByUserId(userId).isPresent();
     }

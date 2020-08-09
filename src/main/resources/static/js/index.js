@@ -82,6 +82,6 @@ let index = {
                 }
             }
         })
-    },
+    }
 }
 index.init();

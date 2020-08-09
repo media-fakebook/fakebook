@@ -35,7 +35,7 @@
           rel="stylesheet">
 
     <link rel="stylesheet" href="/css/app.css">
-    <link rel="stylesheet" href="/css/login.css">
+    <link rel="stylesheet" href="/css/index.css">
 </head>
 <body>
 <div id="wootecobook-app">
@@ -43,14 +43,14 @@
     <header id="header" class="header navbar">
         <div class="header-container max-width-lg mx-auto">
             <span class="header-title">fakebook</span>
-            <form class="login-form" action="/login" method="post">
+            <form class="login-form" id="login-form" action="/login" method="post">
                 <table class="login-table">
                     <th>아이디</th>
                     <th>비밀번호</th>
                     <th></th>
                     <tr>
-                        <td><input type="text" name="username"></td>
-                        <td><input type="text" name="password"></td>
+                        <td><input type="text" name="username" v-model="username"></td>
+                        <td><input type="text" name="password" v-model="password"></td>
                         <td><input type="submit" value="로그인"></td>
                     </tr>
                 </table>
@@ -116,6 +116,6 @@
         crossorigin="anonymous"></script>
 <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
 <script src="https://unpkg.com/axios/dist/axios.min.js"></script>
-<script src="js/index.js"></script>
+<script src="/js/index.js"></script>
 </body>
 </html>

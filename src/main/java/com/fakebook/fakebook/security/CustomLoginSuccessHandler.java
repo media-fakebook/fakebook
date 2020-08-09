@@ -1,8 +1,7 @@
 package com.fakebook.fakebook.security;
 
 import com.fakebook.fakebook.member.domain.Member;
-import com.fakebook.fakebook.member.domain.MemberRepository;
-import com.fakebook.fakebook.member.exception.DoesNotExistingUserIdException;
+import com.fakebook.fakebook.member.service.MemberService;
 import com.fakebook.fakebook.member.web.dto.MemberResponseDto;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
@@ -14,10 +13,11 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import java.io.IOException;
+
 public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSuccessHandler {
 
     @Autowired
-    MemberRepository memberRepository;
+    MemberService memberService;
 
     public CustomLoginSuccessHandler(String nextUrl) {
         setDefaultTargetUrl(nextUrl);
@@ -27,9 +27,8 @@ public class CustomLoginSuccessHandler extends SavedRequestAwareAuthenticationSu
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         HttpSession session = request.getSession();
         UserDetails userDetails = (UserDetails) authentication.getPrincipal();
-        Member memberByUserId = memberRepository.findByUserId(userDetails.getUsername())
-                .orElseThrow(()->new DoesNotExistingUserIdException(userDetails.getUsername()));
+        Member memberByUserId = memberService.findByUserId(userDetails.getUsername());
         session.setAttribute("user", new MemberResponseDto(memberByUserId));
-        super.onAuthenticationSuccess(request,response,authentication);
+        super.onAuthenticationSuccess(request, response, authentication);
     }
 }

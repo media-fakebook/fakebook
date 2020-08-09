@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 public class PeedController {
 
     @GetMapping("/peed")
-    public String peed(){
+    public String peed() {
         return "peed";
     }
 }

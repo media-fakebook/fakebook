@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 public class MemberController {
 
     @GetMapping
-    public String index(){
+    public String index() {
         return "index";
     }
 }

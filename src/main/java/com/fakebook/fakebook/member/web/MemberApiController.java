@@ -5,7 +5,6 @@ import com.fakebook.fakebook.member.web.dto.MemberRegisterRequestDto;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.util.NestedServletException;
-import javax.servlet.http.HttpServletResponse;
 
 @RequestMapping("/member")
 @RequiredArgsConstructor
@@ -14,8 +13,8 @@ public class MemberApiController {
     private final MemberService memberService;
 
     @PostMapping("/register")
-    public Long register(@RequestBody MemberRegisterRequestDto requestDto,
-                         HttpServletResponse response) throws NestedServletException{
-        return memberService.register(requestDto);
+    public Long register(@RequestBody MemberRegisterRequestDto requestDto) throws NestedServletException {
+        Long userId = memberService.register(requestDto);
+        return userId;
     }
 }

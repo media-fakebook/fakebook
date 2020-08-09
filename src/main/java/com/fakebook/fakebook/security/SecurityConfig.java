@@ -10,6 +10,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.AuthenticationFailureHandler;
 import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 
 @RequiredArgsConstructor
@@ -20,7 +21,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     public void configure(WebSecurity web) throws Exception {
         web.ignoring()
-                .antMatchers("/static/**", "templates/**");
+                .antMatchers("/static/**", "/templates/**", "/css/**", "/js/**");
     }
 
     @Override
@@ -28,13 +29,14 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/**").permitAll()
+                    .antMatchers("/", "/member/register", "/login").permitAll()
+                    .anyRequest().permitAll()
                 .and()
                     .formLogin()
                     .loginPage("/")
                     .loginProcessingUrl("/login")
                     .successHandler(successHandler())
-                    .failureUrl("/")
+                    .failureHandler(failureHandler())
                 .and()
                 .logout();
     }
@@ -54,4 +56,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public AuthenticationSuccessHandler successHandler() {
         return new CustomLoginSuccessHandler("/peed");
     }
+
+    @Bean
+    public AuthenticationFailureHandler failureHandler() {return new CustomLoginFailureHandler();}
 }
