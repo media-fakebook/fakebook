@@ -3,15 +3,13 @@ package com.fakebook.fakebook.member.web.dto;
 import com.fakebook.fakebook.member.domain.Gender;
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.member.domain.Role;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 import java.time.LocalDate;
 
-@NoArgsConstructor
-@Setter
+@AllArgsConstructor
 @Getter
 public class MemberRegisterRequestDto {
     private static final BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();

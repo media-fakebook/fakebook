@@ -1,16 +1,13 @@
 package com.fakebook.fakebook.member.domain;
 
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
 @EqualsAndHashCode(exclude = {"id", "password" })
-@NoArgsConstructor
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member {
     @Id
@@ -38,8 +35,8 @@ public class Member {
     private Role role;
 
     @Builder
-    public Member(String userId, String password, String name,
-                  LocalDate birthday, Gender gender, Role role) {
+    private Member(String userId, String password, String name,
+                   LocalDate birthday, Gender gender, Role role) {
         this.userId = userId;
         this.password = password;
         this.name = name;
