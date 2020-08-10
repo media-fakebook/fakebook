@@ -29,16 +29,18 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/member/register", "/login").permitAll()
-                    .anyRequest().permitAll()
+                .antMatchers("/", "/member/register", "/login", "/h2-console/**").permitAll()
+                .anyRequest().permitAll()
                 .and()
-                    .formLogin()
-                    .loginPage("/")
-                    .loginProcessingUrl("/login")
-                    .successHandler(successHandler())
-                    .failureHandler(failureHandler())
+                .formLogin()
+                .loginPage("/")
+                .loginProcessingUrl("/login")
+                .successHandler(successHandler())
+                .failureHandler(failureHandler())
                 .and()
                 .logout();
+
+        http.headers().frameOptions().disable();
     }
 
     @Bean

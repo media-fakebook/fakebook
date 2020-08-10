@@ -2,6 +2,7 @@ let peed = {
     init: function () {
         let _this = this;
         _this.initProfile();
+        _this.initPostRegistrationFunction()
     },
     initProfile: function () {
         let userName='';
@@ -19,6 +20,25 @@ let peed = {
             console.log(error);
         })
 
+    },
+    initPostRegistrationFunction: function () {
+        new Vue({
+            el: "#post-card",
+            data: {
+                content: ''
+            },
+            methods: {
+                register: function (e) {
+                    axios.post("/post/register", {
+                        content: this.content
+                    }).then(function (response) {
+                        console.log(response);
+                    }).catch(function (error) {
+                        console.log(error);
+                    });
+                }
+            }
+        })
     }
 }
 peed.init();

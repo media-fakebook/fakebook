@@ -1,9 +1,12 @@
 package com.fakebook.fakebook.member.domain;
 
+import com.fakebook.fakebook.post.domain.Post;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.ArrayList;
+import java.util.List;
 
 @Getter
 @EqualsAndHashCode(exclude = {"id", "password" })
@@ -33,6 +36,9 @@ public class Member {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
+
+    @OneToMany(mappedBy = "member")
+    private List<Post> posts = new ArrayList<>();
 
     @Builder
     private Member(String userId, String password, String name,
