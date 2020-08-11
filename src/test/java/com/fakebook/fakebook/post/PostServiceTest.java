@@ -7,6 +7,7 @@ import com.fakebook.fakebook.member.domain.Role;
 import com.fakebook.fakebook.member.web.dto.MemberResponseDto;
 import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.web.PostRegisterRequestDto;
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -51,6 +52,11 @@ public class PostServiceTest {
         mockHttpSession.setAttribute("user", memberResponseDto);
     }
 
+    @AfterEach
+    private void cleanUp() {
+        postRepository.deleteAll();
+    }
+
     @Test
     void post_등록_확인() {
         //given
@@ -61,6 +67,27 @@ public class PostServiceTest {
         postService.register(requestDto, mockHttpSession);
 
         //then
-        assertThat(postRepository.findAll().get(0).getContent()).isEqualTo("testContent");
+        assertThat(postRepository.findAll().get(0).getContent())
+                .isEqualTo("testContent");
+    }
+
+    @Test
+    void post_수정_확인() {
+        //given
+        PostRegisterRequestDto postWaitingForUpdate = new PostRegisterRequestDto();
+        postWaitingForUpdate.setContent("testContent");
+
+        PostRegisterRequestDto postWithNewContent = new PostRegisterRequestDto();
+        postWithNewContent.setContent("new Content");
+
+        postService.register(postWaitingForUpdate, mockHttpSession);
+        Long postId = postRepository.findAll().get(0).getId();
+
+        //when
+        postService.update(postId, postWithNewContent);
+
+        //then
+        assertThat(postRepository.findById(postId).get().getContent())
+                .isEqualTo("new Content");
     }
 }

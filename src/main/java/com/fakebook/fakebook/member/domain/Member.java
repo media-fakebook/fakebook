@@ -9,7 +9,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Getter
-@EqualsAndHashCode(exclude = {"id", "password" })
+@EqualsAndHashCode(exclude = {"id", "password", "posts"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member {

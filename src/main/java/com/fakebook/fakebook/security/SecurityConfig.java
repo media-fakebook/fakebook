@@ -39,7 +39,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .failureHandler(failureHandler())
                 .and()
                 .logout();
-
+        //개발시 h2-console 사용하기 위해 추가
         http.headers().frameOptions().disable();
     }
 

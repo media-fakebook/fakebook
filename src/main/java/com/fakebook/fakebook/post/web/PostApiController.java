@@ -21,4 +21,9 @@ public class PostApiController {
     public Long register(@RequestBody PostRegisterRequestDto requestDto, HttpSession session) {
         return postService.register(requestDto, session);
     }
+
+    @PostMapping("/update")
+    public Long update(Long id, @RequestBody PostRegisterRequestDto requestDto) {
+        return postService.update(id, requestDto);
+    }
 }
