@@ -1,14 +1,13 @@
-package com.fakebook.fakebook.post;
+package com.fakebook.fakebook.mypage.service;
 
 import com.fakebook.fakebook.member.domain.Gender;
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.member.domain.MemberRepository;
 import com.fakebook.fakebook.member.domain.Role;
 import com.fakebook.fakebook.member.web.dto.MemberResponseDto;
-import com.fakebook.fakebook.post.domain.PostRepository;
+import com.fakebook.fakebook.post.domain.Post;
 import com.fakebook.fakebook.post.service.PostService;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
-import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -18,21 +17,22 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.mock.web.MockHttpSession;
 
 import java.time.LocalDate;
+import java.util.List;
 
 import static org.assertj.core.api.Assertions.assertThat;
 
 @TestInstance(TestInstance.Lifecycle.PER_CLASS)
 @AutoConfigureMockMvc
 @SpringBootTest
-public class PostServiceTest {
+public class MyPageServiceTest {
     @Autowired
-    private PostService postService;
+    private MyPageService myPageService;
 
     @Autowired
     private MemberRepository memberRepository;
 
     @Autowired
-    private PostRepository postRepository;
+    private PostService postService;
 
     private MockHttpSession mockHttpSession;
 
@@ -53,57 +53,17 @@ public class PostServiceTest {
         mockHttpSession.setAttribute("user", memberResponseDto);
     }
 
-    @AfterEach
-    private void cleanUp() {
-        postRepository.deleteAll();
-    }
-
     @Test
-    void post_등록_확인() {
+    void 자신의_모든_포스트_조회_동작_확인() {
         //given
         PostRegisterRequestDto requestDto = new PostRegisterRequestDto();
         requestDto.setContent("testContent");
-
-        //when
         postService.register(requestDto, mockHttpSession);
 
-        //then
-        assertThat(postRepository.findAll().get(0).getContent())
-                .isEqualTo("testContent");
-    }
-
-    @Test
-    void post_수정_확인() {
-        //given
-        PostRegisterRequestDto postWaitingForUpdate = new PostRegisterRequestDto();
-        postWaitingForUpdate.setContent("testContent");
-
-        PostRegisterRequestDto postWithNewContent = new PostRegisterRequestDto();
-        postWithNewContent.setContent("new Content");
-
-        postService.register(postWaitingForUpdate, mockHttpSession);
-        Long postId = postRepository.findAll().get(0).getId();
-
         //when
-        postService.update(postId, postWithNewContent);
+        List<Post> myPagePosts = myPageService.getMyPagePosts(mockHttpSession);
 
         //then
-        assertThat(postRepository.findById(postId).get().getContent())
-                .isEqualTo("new Content");
-    }
-
-    @Test
-    void post_삭제_확인() {
-        //given
-        PostRegisterRequestDto postWaitingForDelete = new PostRegisterRequestDto();
-        postWaitingForDelete.setContent("be deleted soon");
-        postService.register(postWaitingForDelete, mockHttpSession);
-        Long postId = postRepository.findAll().get(0).getId();
-
-        //when
-        postService.delete(postId);
-
-        //then
-        assertThat(postRepository.findById(postId).isPresent()).isFalse();
+        assertThat(myPagePosts.get(0).getContent()).isEqualTo("testContent");
     }
 }

@@ -1,10 +1,9 @@
 package com.fakebook.fakebook.post.web;
 
-import com.fakebook.fakebook.post.PostService;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import com.fakebook.fakebook.post.service.PostService;
+import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
+import org.springframework.http.HttpStatus;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpSession;
 
@@ -23,7 +22,12 @@ public class PostApiController {
     }
 
     @PostMapping("/update")
-    public Long update(Long id, @RequestBody PostRegisterRequestDto requestDto) {
-        return postService.update(id, requestDto);
+    public Long update(Long postId, @RequestBody PostRegisterRequestDto requestDto) {
+        return postService.update(postId, requestDto);
+    }
+
+    @DeleteMapping("/delete")
+    public HttpStatus delete(Long postId) {
+        return postService.delete(postId);
     }
 }

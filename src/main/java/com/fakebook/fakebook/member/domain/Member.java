@@ -1,6 +1,7 @@
 package com.fakebook.fakebook.member.domain;
 
 import com.fakebook.fakebook.post.domain.Post;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
@@ -37,6 +38,7 @@ public class Member {
     @Column(name = "role", nullable = false)
     private Role role;
 
+    @JsonManagedReference
     @OneToMany(mappedBy = "member")
     private List<Post> posts = new ArrayList<>();
 

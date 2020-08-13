@@ -1,7 +1,8 @@
 package com.fakebook.fakebook.post.domain;
 
 import com.fakebook.fakebook.member.domain.Member;
-import com.fakebook.fakebook.post.web.PostRegisterRequestDto;
+import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -20,6 +21,7 @@ public class Post {
     @Column(name = "content")
     private String content;
 
+    @JsonBackReference
     @ManyToOne(fetch = FetchType.LAZY)
     @JoinColumn(name = "member_id")
     private Member member;

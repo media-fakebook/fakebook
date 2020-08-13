@@ -1,4 +1,4 @@
-package com.fakebook.fakebook.post.web;
+package com.fakebook.fakebook.post.web.dto;
 
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.post.domain.Post;

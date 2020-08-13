@@ -1,4 +1,4 @@
-package com.fakebook.fakebook.post;
+package com.fakebook.fakebook.post.service;
 
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.member.domain.MemberRepository;
@@ -7,7 +7,8 @@ import com.fakebook.fakebook.member.web.dto.MemberResponseDto;
 import com.fakebook.fakebook.post.domain.Post;
 import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.exception.DoesNotExistingPostException;
-import com.fakebook.fakebook.post.web.PostRegisterRequestDto;
+import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -32,9 +33,17 @@ public class PostService {
     }
 
     @Transactional
-    public Long update(Long id, PostRegisterRequestDto requestDto) {
-        Post postById = postRepository.findById(id)
-                .orElseThrow(() -> new DoesNotExistingPostException(id));
+    public Long update(Long postId, PostRegisterRequestDto requestDto) {
+        Post postById = postRepository.findById(postId)
+                .orElseThrow(() -> new DoesNotExistingPostException(postId));
         return postById.update(requestDto);
+    }
+
+    @Transactional
+    public HttpStatus delete(Long postId) {
+        Post postById = postRepository.findById(postId)
+                .orElseThrow(() -> new DoesNotExistingPostException(postId));
+        postRepository.delete(postById);
+        return HttpStatus.OK;
     }
 }
