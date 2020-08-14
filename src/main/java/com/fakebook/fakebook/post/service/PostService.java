@@ -8,7 +8,6 @@ import com.fakebook.fakebook.post.domain.Post;
 import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.exception.DoesNotExistingPostException;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
-import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -40,10 +39,10 @@ public class PostService {
     }
 
     @Transactional
-    public HttpStatus delete(Long postId) {
+    public Long delete(Long postId) {
         Post postById = postRepository.findById(postId)
                 .orElseThrow(() -> new DoesNotExistingPostException(postId));
         postRepository.delete(postById);
-        return HttpStatus.OK;
+        return postId;
     }
 }

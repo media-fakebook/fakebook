@@ -6,6 +6,7 @@ import com.fakebook.fakebook.member.domain.MemberRepository;
 import com.fakebook.fakebook.member.domain.Role;
 import com.fakebook.fakebook.member.web.dto.MemberResponseDto;
 import com.fakebook.fakebook.post.domain.Post;
+import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.service.PostService;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
 import org.junit.jupiter.api.BeforeAll;
@@ -33,6 +34,9 @@ public class MyPageServiceTest {
 
     @Autowired
     private PostService postService;
+
+    @Autowired
+    private PostRepository postRepository;
 
     private MockHttpSession mockHttpSession;
 

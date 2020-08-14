@@ -133,16 +133,28 @@
                 </div>
             </div>
             <!---------------------------피드 부분 ------------------------------>
-            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7">
+            <div class="col-lg-7 col-md-7 col-sm-7 col-xs-7" id="mypage-peed">
                 <div class="card widget-feed padding-15">
                     <div class="mypage-profile width-400px vertical-align" id="mypage-profile">
                         <img class="img-circle width-160px" src="/images/default/profile-default.png"
                              id="mypage-profile-img">
                         <span class="text-bold font-size-25 margin-20">{{userName}}</span>
                     </div>
-                    <hr width="100%">
                 </div>
+
+                <!------------------피드 하나 --------------->
+
+                <posts
+                        v-for="post in posts"
+                        v-bind:post="post"
+                        v-bind:username="userName"
+                ></posts>
+
+
             </div>
+            <!------------------------------------게시글----------------------------------->
+
+
             <div class="col-lg-3 col-md-3 col-sm-3 col-xs-3 pdd-right-0">
                 <div class="card">
                     <h5 class="card-title mrg-top-15 mrg-btm-0 mrg-horizon-15">스토리</h5>

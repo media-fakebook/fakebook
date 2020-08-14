@@ -36,6 +36,8 @@ let peed = {
                         content: this.content
                     }).then(function (response) {
                         console.log(response);
+                        alert("게시물을 작성했습니다. ");
+                        window.location.reload();
                     }).catch(function (error) {
                         console.log(error);
                     });
