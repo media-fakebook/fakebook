@@ -44,7 +44,7 @@
         <div class="header-container max-width-lg mx-auto">
             <ul class="nav-left mrg-left-0">
                 <li>
-                    <a href="peed.html">
+                    <a href="/peed">
                         <div class="logo" style="background-image: url('/images/default/icons.png')"></div>
                     </a>
                 </li>
@@ -64,13 +64,15 @@
                     <a>
                         <img class="profile-img img-fluid" src="/images/default/profile-default.png" alt="">
                         <div class="user-info mrg-left-5">
-                            <span class="name pdd-right-5 text-white text-bold">{{userName}}</span>
+                            <span class="name pdd-right-5 text-white text-bold"
+                                  onclick="location.href='/mypage'" style=" cursor: pointer">{{userName}}</span>
                         </div>
+                        <span></span>
                     </a>
                 </li>
                 <li class="">
-                    <a class="pointer">
-                        <span class="text-white text-bold font-size-12">홈</span>
+                    <a class="pointer" href="/logout">
+                        <span class="text-white text-bold font-size-12">로그아웃</span>
                     </a>
                 </li>
                 <li>
