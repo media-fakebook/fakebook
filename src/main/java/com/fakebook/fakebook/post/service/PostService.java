@@ -7,7 +7,10 @@ import com.fakebook.fakebook.member.web.dto.MemberResponseDto;
 import com.fakebook.fakebook.post.domain.Post;
 import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.exception.DoesNotExistingPostException;
+import com.fakebook.fakebook.post.exception.IllegalAccessToPostException;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -33,6 +36,9 @@ public class PostService {
 
     @Transactional
     public Long update(Long postId, PostRegisterRequestDto requestDto) {
+        if (isIllegalAccessToPost(postId)) {
+            throw new IllegalAccessToPostException();
+        }
         Post postById = postRepository.findById(postId)
                 .orElseThrow(() -> new DoesNotExistingPostException(postId));
         return postById.update(requestDto);
@@ -40,9 +46,25 @@ public class PostService {
 
     @Transactional
     public Long delete(Long postId) {
+        if (isIllegalAccessToPost(postId)) {
+            throw new IllegalAccessToPostException();
+        }
         Post postById = postRepository.findById(postId)
                 .orElseThrow(() -> new DoesNotExistingPostException(postId));
         postRepository.delete(postById);
         return postId;
+    }
+
+    private boolean isIllegalAccessToPost(Long postId) {
+        UserDetails loginUser = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String userIdOfLoginUser = loginUser.getUsername();
+
+        Post targetPost = postRepository.findById(postId)
+                .orElseThrow(() -> new DoesNotExistingPostException(postId));
+        String userIdOfRealOwner = targetPost.getMember().getUserId();
+        return !userIdOfLoginUser.equals(userIdOfRealOwner);
     }
 }
