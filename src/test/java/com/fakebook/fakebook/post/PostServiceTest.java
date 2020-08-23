@@ -8,10 +8,7 @@ import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.exception.IllegalAccessToPostException;
 import com.fakebook.fakebook.post.service.PostService;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
-import org.junit.jupiter.api.AfterEach;
-import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Test;
-import org.junit.jupiter.api.TestInstance;
+import org.junit.jupiter.api.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -56,6 +53,11 @@ public class PostServiceTest {
     private void cleanUp() {
         postRepository.deleteAll();
     }
+
+	@AfterAll
+	void tearDown() {
+		memberRepository.deleteAll();
+	}
 
     @WithMockUser(username = "testId")
     @Test
