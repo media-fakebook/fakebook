@@ -1,12 +1,12 @@
 package com.fakebook.fakebook.mypage.web;
 
 import com.fakebook.fakebook.mypage.service.MyPageService;
-import com.fakebook.fakebook.post.domain.Post;
+import com.fakebook.fakebook.post.web.dto.PostResponseDto;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.servlet.http.HttpSession;
+import java.security.Principal;
 import java.util.List;
 
 @RequestMapping("/mypage")
@@ -19,7 +19,8 @@ public class MyPageApiController {
     }
 
     @GetMapping("/posts")
-    public List<Post> getMyPagePosts(HttpSession session) {
-        return myPageService.getMyPagePosts(session);
+    public List<PostResponseDto> getMyPagePosts(Principal principal) {
+        String userId = principal.getName();
+        return myPageService.getMyPagePosts(userId);
     }
 }

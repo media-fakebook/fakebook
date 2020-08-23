@@ -4,7 +4,6 @@ import com.fakebook.fakebook.member.domain.Gender;
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.member.domain.MemberRepository;
 import com.fakebook.fakebook.member.domain.Role;
-import com.fakebook.fakebook.member.web.dto.MemberResponseDto;
 import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.exception.IllegalAccessToPostException;
 import com.fakebook.fakebook.post.service.PostService;
@@ -16,7 +15,8 @@ import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDate;
@@ -37,11 +37,11 @@ public class PostServiceTest {
     @Autowired
     private PostRepository postRepository;
 
-    private MockHttpSession mockHttpSession;
+    private Member member;
 
     @BeforeAll
     private void setUp() {
-        Member member = Member.builder()
+        member = Member.builder()
                 .userId("testId")
                 .password("testPassword")
                 .birthday(LocalDate.of(1995, 8, 22))
@@ -50,10 +50,6 @@ public class PostServiceTest {
                 .role(Role.USER)
                 .build();
         memberRepository.save(member);
-
-        MemberResponseDto memberResponseDto = new MemberResponseDto(member);
-        mockHttpSession = new MockHttpSession();
-        mockHttpSession.setAttribute("user", memberResponseDto);
     }
 
     @AfterEach
@@ -61,23 +57,30 @@ public class PostServiceTest {
         postRepository.deleteAll();
     }
 
+    @WithMockUser(username = "testId")
     @Test
-    void post_등록_확인() {
+    void 게시물_등록_확인() {
         //given
         PostRegisterRequestDto requestDto = new PostRegisterRequestDto();
         requestDto.setContent("testContent");
 
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
         //when
-        postService.register(requestDto, mockHttpSession);
+        postService.register(requestDto, userDetails.getUsername());
 
         //then
         assertThat(postRepository.findAll().get(0).getContent())
                 .isEqualTo("testContent");
+
     }
 
     @WithMockUser(username = "testId")
     @Test
-    void post_수정_확인() {
+    void 게시물_수정_확인() {
         //given
         PostRegisterRequestDto postWaitingForUpdate = new PostRegisterRequestDto();
         postWaitingForUpdate.setContent("testContent");
@@ -85,7 +88,12 @@ public class PostServiceTest {
         PostRegisterRequestDto postWithNewContent = new PostRegisterRequestDto();
         postWithNewContent.setContent("new Content");
 
-        postService.register(postWaitingForUpdate, mockHttpSession);
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+
+        postService.register(postWaitingForUpdate, userDetails.getUsername());
         Long postId = postRepository.findAll().get(0).getId();
 
         //when
@@ -106,7 +114,7 @@ public class PostServiceTest {
         PostRegisterRequestDto postWithNewContent = new PostRegisterRequestDto();
         postWithNewContent.setContent("new Content");
 
-        postService.register(postWaitingForUpdate, mockHttpSession);
+        postService.register(postWaitingForUpdate, "testId");
         Long postId = postRepository.findAll().get(0).getId();
 
         //then
@@ -116,11 +124,18 @@ public class PostServiceTest {
 
     @WithMockUser(username = "testId")
     @Test
-    void post_삭제_확인() {
+    void 게시물_삭제_확인() {
         //given
         PostRegisterRequestDto postWaitingForDelete = new PostRegisterRequestDto();
         postWaitingForDelete.setContent("be deleted soon");
-        postService.register(postWaitingForDelete, mockHttpSession);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        String userId = userDetails.getUsername();
+
+        postService.register(postWaitingForDelete, userId);
         Long postId = postRepository.findAll().get(0).getId();
 
         //when
@@ -136,10 +151,11 @@ public class PostServiceTest {
         //given
         PostRegisterRequestDto postWaitingForDelete = new PostRegisterRequestDto();
         postWaitingForDelete.setContent("be deleted soon");
-        postService.register(postWaitingForDelete, mockHttpSession);
+
+        postService.register(postWaitingForDelete, "testId");
         Long postId = postRepository.findAll().get(0).getId();
 
-        //then
+        //when & then
         assertThatExceptionOfType(IllegalAccessToPostException.class)
                 .isThrownBy(() -> postService.delete(postId));
     }

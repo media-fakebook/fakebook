@@ -4,7 +4,7 @@ import com.fakebook.fakebook.post.service.PostService;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
 import org.springframework.web.bind.annotation.*;
 
-import javax.servlet.http.HttpSession;
+import java.security.Principal;
 
 @RequestMapping("/post")
 @RestController
@@ -16,8 +16,9 @@ public class PostApiController {
     }
 
     @PostMapping("/register")
-    public Long register(@RequestBody PostRegisterRequestDto requestDto, HttpSession session) {
-        return postService.register(requestDto, session);
+    public Long register(@RequestBody PostRegisterRequestDto requestDto, Principal principal) {
+        String userId = principal.getName();
+        return postService.register(requestDto, userId);
     }
 
     @PostMapping("/update")
