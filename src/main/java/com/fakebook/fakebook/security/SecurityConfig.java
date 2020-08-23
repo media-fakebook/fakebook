@@ -29,16 +29,19 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http
                 .csrf().disable()
                 .authorizeRequests()
-                    .antMatchers("/", "/member/register", "/login").permitAll()
-                    .anyRequest().permitAll()
+                .antMatchers("/", "/member/register", "/login", "/h2-console/**").permitAll()
+                .antMatchers("/post/**", "/mypage/**").authenticated()
+                .anyRequest().authenticated()
                 .and()
-                    .formLogin()
-                    .loginPage("/")
-                    .loginProcessingUrl("/login")
-                    .successHandler(successHandler())
-                    .failureHandler(failureHandler())
+                .formLogin()
+                .loginPage("/")
+                .loginProcessingUrl("/login")
+                .successHandler(successHandler())
+                .failureHandler(failureHandler())
                 .and()
                 .logout();
+        //개발시 h2-console 사용하기 위해 추가
+        http.headers().frameOptions().disable();
     }
 
     @Bean
@@ -50,6 +53,8 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
+
+        auth.userDetailsService(customUserDetailsService);
     }
 
     @Bean

@@ -280,3 +280,14 @@ img {
     line-height: 43px;
     min-height: 43px;
 }
+
+#btn-post-register {
+    margin-left: 10px;
+    background-color: #4267b2;
+    border-radius: 10px !important;
+    width: 130px;
+    color: white;
+    font-size: 13px;
+    font-weight: bold;
+    height: 33px;
+}

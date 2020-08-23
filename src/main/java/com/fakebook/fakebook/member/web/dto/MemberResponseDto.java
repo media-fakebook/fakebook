@@ -10,6 +10,8 @@ import java.time.LocalDate;
 @Setter
 @Getter
 public class MemberResponseDto {
+    private Long id;
+
     private String userId;
 
     private String name;
@@ -19,6 +21,7 @@ public class MemberResponseDto {
     private Gender gender;
 
     public MemberResponseDto(Member member) {
+        this.id = member.getId();
         this.userId = member.getUserId();
         this.name = member.getName();
         this.birthday = member.getBirthday();

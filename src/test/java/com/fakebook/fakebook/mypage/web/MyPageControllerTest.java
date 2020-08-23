@@ -1,33 +1,40 @@
-package com.fakebook.fakebook.member.web;
+package com.fakebook.fakebook.mypage.web;
 
 import com.fakebook.fakebook.member.service.MemberService;
+import com.fakebook.fakebook.mypage.service.MyPageService;
+import com.fakebook.fakebook.post.service.PostService;
 import com.fakebook.fakebook.security.CustomUserDetailsService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.WebMvcTest;
 import org.springframework.boot.test.mock.mockito.MockBean;
+import org.springframework.security.test.context.support.WithMockUser;
 import org.springframework.test.web.servlet.MockMvc;
 
-import static org.hamcrest.Matchers.containsString;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
-import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.content;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.view;
 
-@WebMvcTest(MemberController.class)
-public class MemberControllerTest {
+@WebMvcTest
+public class MyPageControllerTest {
     @MockBean
-    private CustomUserDetailsService customUserDetailsService;
+    private CustomUserDetailsService userDetailsService;
+
+    @Autowired
+    private MockMvc mockMvc;
 
     @MockBean
     private MemberService memberService;
 
-    @Autowired
-    private MockMvc mvc;
+    @MockBean
+    private MyPageService myPageService;
 
+    @MockBean
+    private PostService postService;
+
+    @WithMockUser
     @Test
-    void 로그인페이지_호출_테스트() throws Exception {
-        mvc.perform(get("/"))
-                .andExpect(view().name("index"))
-                .andExpect(content().string(containsString("새 계정 만들기")));
+    public void mypage_호출_동작_확인() throws Exception {
+        mockMvc.perform(get("/mypage"))
+                .andExpect(view().name("mypage"));
     }
 }

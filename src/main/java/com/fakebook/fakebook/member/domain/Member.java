@@ -6,7 +6,7 @@ import javax.persistence.*;
 import java.time.LocalDate;
 
 @Getter
-@EqualsAndHashCode(exclude = {"id", "password" })
+@EqualsAndHashCode(exclude = {"id", "password"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member {
