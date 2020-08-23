@@ -1,16 +1,12 @@
 package com.fakebook.fakebook.member.domain;
 
-import com.fakebook.fakebook.post.domain.Post;
-import com.fasterxml.jackson.annotation.JsonManagedReference;
 import lombok.*;
 
 import javax.persistence.*;
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
 
 @Getter
-@EqualsAndHashCode(exclude = {"id", "password", "posts"})
+@EqualsAndHashCode(exclude = {"id", "password"})
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
 public class Member {
@@ -37,10 +33,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     @Column(name = "role", nullable = false)
     private Role role;
-
-    @JsonManagedReference
-    @OneToMany(mappedBy = "member")
-    private List<Post> posts = new ArrayList<>();
 
     @Builder
     private Member(String userId, String password, String name,

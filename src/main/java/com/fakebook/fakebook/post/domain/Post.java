@@ -2,8 +2,8 @@ package com.fakebook.fakebook.post.domain;
 
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
-import com.fasterxml.jackson.annotation.JsonBackReference;
 import lombok.AccessLevel;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
@@ -12,6 +12,7 @@ import javax.persistence.*;
 @Getter
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Entity
+@EqualsAndHashCode
 public class Post {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -21,8 +22,7 @@ public class Post {
     @Column(name = "content")
     private String content;
 
-    @JsonBackReference
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.EAGER)
     @JoinColumn(name = "member_id")
     private Member member;
 
