@@ -3,18 +3,20 @@ package com.fakebook.fakebook.member.service;
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.member.domain.MemberRepository;
 import com.fakebook.fakebook.member.exception.DoesNotExistingUserIdException;
-import com.fakebook.fakebook.member.web.dto.MemberRegisterRequestDto;
 import com.fakebook.fakebook.member.exception.DuplicatedUserIdException;
-import lombok.RequiredArgsConstructor;
+import com.fakebook.fakebook.member.web.dto.MemberRegisterRequestDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.util.NestedServletException;
 
 
-@RequiredArgsConstructor
 @Service
 public class MemberService {
     private final MemberRepository repository;
+
+    public MemberService(MemberRepository repository) {
+        this.repository = repository;
+    }
 
     @Transactional
     public Long register(MemberRegisterRequestDto requestDto) throws NestedServletException {

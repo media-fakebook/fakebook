@@ -1,0 +1,11 @@
+#mypage-profile {
+    display: flex;
+    position: relative;
+    flex-direction: column;
+    text-align: center;
+}
+
+#mypage-profile-img {
+    position: relative;
+    left: 34.5%;
+}

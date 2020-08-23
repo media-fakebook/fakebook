@@ -36,7 +36,8 @@ public class MemberServiceTest {
         memberService.register(registerRequestDto);
 
         //then
-        assertThat(memberRepository.findAll().get(0)).isEqualTo(registerRequestDto.toEntity());
+        assertThat(memberRepository.findAll().get(0))
+                .isEqualTo(registerRequestDto.toEntity());
     }
 
     @Test
