@@ -4,18 +4,19 @@ import com.fakebook.fakebook.member.domain.Gender;
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.member.domain.MemberRepository;
 import com.fakebook.fakebook.member.domain.Role;
-import com.fakebook.fakebook.member.web.dto.MemberResponseDto;
-import com.fakebook.fakebook.post.domain.Post;
 import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.service.PostService;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
+import com.fakebook.fakebook.post.web.dto.PostResponseDto;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.autoconfigure.web.servlet.AutoConfigureMockMvc;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.mock.web.MockHttpSession;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.test.context.support.WithMockUser;
 
 import java.time.LocalDate;
 import java.util.List;
@@ -38,8 +39,6 @@ public class MyPageServiceTest {
     @Autowired
     private PostRepository postRepository;
 
-    private MockHttpSession mockHttpSession;
-
     @BeforeAll
     private void setUp() {
         Member member = Member.builder()
@@ -51,21 +50,23 @@ public class MyPageServiceTest {
                 .role(Role.USER)
                 .build();
         memberRepository.save(member);
-
-        MemberResponseDto memberResponseDto = new MemberResponseDto(member);
-        mockHttpSession = new MockHttpSession();
-        mockHttpSession.setAttribute("user", memberResponseDto);
     }
 
+    @WithMockUser(username = "testId")
     @Test
     void 자신의_모든_포스트_조회_동작_확인() {
         //given
         PostRegisterRequestDto requestDto = new PostRegisterRequestDto();
         requestDto.setContent("testContent");
-        postService.register(requestDto, mockHttpSession);
+
+        UserDetails userDetails = (UserDetails) SecurityContextHolder
+                .getContext()
+                .getAuthentication()
+                .getPrincipal();
+        postService.register(requestDto, userDetails.getUsername());
 
         //when
-        List<Post> myPagePosts = myPageService.getMyPagePosts(mockHttpSession);
+        List<PostResponseDto> myPagePosts = myPageService.getMyPagePosts(userDetails.getUsername());
 
         //then
         assertThat(myPagePosts.get(0).getContent()).isEqualTo("testContent");

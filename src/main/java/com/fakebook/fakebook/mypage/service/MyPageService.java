@@ -3,14 +3,13 @@ package com.fakebook.fakebook.mypage.service;
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.member.domain.MemberRepository;
 import com.fakebook.fakebook.member.exception.DoesNotExistingUserIdException;
-import com.fakebook.fakebook.member.web.dto.MemberResponseDto;
-import com.fakebook.fakebook.post.domain.Post;
 import com.fakebook.fakebook.post.domain.PostRepository;
+import com.fakebook.fakebook.post.web.dto.PostResponseDto;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import javax.servlet.http.HttpSession;
 import java.util.List;
+import java.util.stream.Collectors;
 
 @Service
 public class MyPageService {
@@ -23,10 +22,12 @@ public class MyPageService {
     }
 
     @Transactional
-    public List<Post> getMyPagePosts(HttpSession session) {
-        MemberResponseDto responseDto = (MemberResponseDto) session.getAttribute("user");
-        Member memberById = memberRepository.findByUserId(responseDto.getUserId())
-                .orElseThrow(() -> new DoesNotExistingUserIdException(responseDto.getUserId()));
-        return postRepository.findAllByMember(memberById);
+    public List<PostResponseDto> getMyPagePosts(String userId) {
+        Member memberById = memberRepository.findByUserId(userId)
+                .orElseThrow(() -> new DoesNotExistingUserIdException(userId));
+        return postRepository.findAllByMember(memberById)
+                .stream()
+                .map(PostResponseDto::new)
+                .collect(Collectors.toList());
     }
 }
