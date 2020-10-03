@@ -2,10 +2,13 @@ package com.fakebook.fakebook.comment.domain;
 
 import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.post.domain.Post;
+import lombok.AccessLevel;
 import lombok.Getter;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.*;
 
+@NoArgsConstructor(access = AccessLevel.PROTECTED)
 @Getter
 @Entity
 public class Comment {

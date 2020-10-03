@@ -1,5 +1,6 @@
 package com.fakebook.fakebook.mypage.web;
 
+import com.fakebook.fakebook.comment.service.CommentService;
 import com.fakebook.fakebook.member.service.MemberService;
 import com.fakebook.fakebook.mypage.service.MyPageService;
 import com.fakebook.fakebook.post.service.PostService;
@@ -31,7 +32,10 @@ public class MyPageControllerTest {
     @MockBean
     private PostService postService;
 
-    @WithMockUser
+    @MockBean
+    private CommentService commentService;
+
+    @WithMockUser(username = "testId")
     @Test
     public void mypage_호출_동작_확인() throws Exception {
         mockMvc.perform(get("/mypage"))
