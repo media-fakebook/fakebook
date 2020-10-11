@@ -2,7 +2,7 @@ package com.fakebook.fakebook.comment.service;
 
 import com.fakebook.fakebook.comment.domain.Comment;
 import com.fakebook.fakebook.comment.domain.CommentRepository;
-import com.fakebook.fakebook.comment.exception.IllegalAccessToCommentException;
+import com.fakebook.fakebook.comment.exception.NotAuthorizedException;
 import com.fakebook.fakebook.comment.web.dto.CommentRegisterRequestDto;
 import com.fakebook.fakebook.member.domain.Gender;
 import com.fakebook.fakebook.member.domain.Member;
@@ -119,7 +119,7 @@ public class CommentServiceTest {
 		Long commentId = commentService.register(registerRequestDto, "testId", post.getId());
 
 		//when & then
-		assertThatExceptionOfType(IllegalAccessToCommentException.class)
+		assertThatExceptionOfType(NotAuthorizedException.class)
 				.isThrownBy(() -> commentService.delete(commentId));
 	}
 }

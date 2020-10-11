@@ -5,7 +5,7 @@ import com.fakebook.fakebook.member.domain.Member;
 import com.fakebook.fakebook.member.domain.MemberRepository;
 import com.fakebook.fakebook.member.domain.Role;
 import com.fakebook.fakebook.post.domain.PostRepository;
-import com.fakebook.fakebook.post.exception.IllegalAccessToPostException;
+import com.fakebook.fakebook.post.exception.NotAuthorizedException;
 import com.fakebook.fakebook.post.service.PostService;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
 import org.junit.jupiter.api.*;
@@ -120,7 +120,7 @@ public class PostServiceTest {
         Long postId = postRepository.findAll().get(0).getId();
 
         //then
-        assertThatExceptionOfType(IllegalAccessToPostException.class)
+        assertThatExceptionOfType(NotAuthorizedException.class)
                 .isThrownBy(() -> postService.update(postId, postWithNewContent));
     }
 
@@ -158,7 +158,7 @@ public class PostServiceTest {
         Long postId = postRepository.findAll().get(0).getId();
 
         //when & then
-        assertThatExceptionOfType(IllegalAccessToPostException.class)
+        assertThatExceptionOfType(NotAuthorizedException.class)
                 .isThrownBy(() -> postService.delete(postId));
     }
 }
