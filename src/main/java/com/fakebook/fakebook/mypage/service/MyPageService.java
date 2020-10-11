@@ -23,9 +23,9 @@ public class MyPageService {
 
     @Transactional
     public List<PostResponseDto> getMyPagePosts(String userId) {
-        Member memberById = memberRepository.findByUserId(userId)
+        Member member = memberRepository.findByUserId(userId)
                 .orElseThrow(() -> new DoesNotExistingUserIdException(userId));
-        return postRepository.findAllByMember(memberById)
+        return postRepository.findAllByMember(member)
                 .stream()
                 .map(PostResponseDto::new)
                 .collect(Collectors.toList());

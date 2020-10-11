@@ -31,7 +31,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
                 .authorizeRequests()
                 .antMatchers("/", "/member/register", "/login", "/h2-console/**").permitAll()
                 .antMatchers("/post/**", "/mypage/**").authenticated()
-                .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 .loginPage("/")
@@ -44,6 +43,7 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
         http.headers().frameOptions().disable();
     }
 
+
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();
@@ -53,8 +53,6 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
         auth.userDetailsService(customUserDetailsService)
                 .passwordEncoder(passwordEncoder());
-
-        auth.userDetailsService(customUserDetailsService);
     }
 
     @Bean
