@@ -6,7 +6,7 @@ import com.fakebook.fakebook.member.exception.DoesNotExistingUserIdException;
 import com.fakebook.fakebook.post.domain.Post;
 import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.exception.DoesNotExistingPostException;
-import com.fakebook.fakebook.post.exception.IllegalAccessToPostException;
+import com.fakebook.fakebook.post.exception.NotAuthorizedException;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -25,29 +25,29 @@ public class PostService {
 
     @Transactional
     public Long register(PostRegisterRequestDto registerRequestDto, String userId) {
-        Member memberByUserId = memberRepository.findByUserId(userId)
+        Member member = memberRepository.findByUserId(userId)
                 .orElseThrow(() -> new DoesNotExistingUserIdException(userId));
-        return postRepository.save(registerRequestDto.toEntity(memberByUserId)).getId();
+        return postRepository.save(registerRequestDto.toEntity(member)).getId();
     }
 
     @Transactional
     public Long update(Long postId, PostRegisterRequestDto requestDto) {
         if (isIllegalAccessToPost(postId)) {
-            throw new IllegalAccessToPostException();
+            throw new NotAuthorizedException();
         }
-        Post postById = postRepository.findById(postId)
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new DoesNotExistingPostException(postId));
-        return postById.update(requestDto);
+        return post.update(requestDto);
     }
 
     @Transactional
     public Long delete(Long postId) {
         if (isIllegalAccessToPost(postId)) {
-            throw new IllegalAccessToPostException();
+            throw new NotAuthorizedException();
         }
-        Post postById = postRepository.findById(postId)
+        Post post = postRepository.findById(postId)
                 .orElseThrow(() -> new DoesNotExistingPostException(postId));
-        postRepository.delete(postById);
+        postRepository.delete(post);
         return postId;
     }
 

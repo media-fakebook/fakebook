@@ -8,6 +8,7 @@ import com.fakebook.fakebook.post.domain.PostRepository;
 import com.fakebook.fakebook.post.service.PostService;
 import com.fakebook.fakebook.post.web.dto.PostRegisterRequestDto;
 import com.fakebook.fakebook.post.web.dto.PostResponseDto;
+import org.junit.jupiter.api.AfterAll;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.TestInstance;
@@ -42,25 +43,30 @@ public class MyPageServiceTest {
     @BeforeAll
     private void setUp() {
         Member member = Member.builder()
-                .userId("testId")
-                .password("testPassword")
-                .birthday(LocalDate.of(1995, 8, 22))
-                .gender(Gender.MALE)
-                .name("dongheon")
-                .role(Role.USER)
-                .build();
-        memberRepository.save(member);
-    }
+				.userId("testId")
+				.password("testPassword")
+				.birthday(LocalDate.of(1995, 8, 22))
+				.gender(Gender.MALE)
+				.name("dongheon")
+				.role(Role.USER)
+				.build();
+		memberRepository.save(member);
+	}
 
-    @WithMockUser(username = "testId")
-    @Test
-    void 자신의_모든_포스트_조회_동작_확인() {
-        //given
-        PostRegisterRequestDto requestDto = new PostRegisterRequestDto();
-        requestDto.setContent("testContent");
+	@AfterAll
+	private void cleanUp() {
+		memberRepository.deleteAll();
+	}
 
-        UserDetails userDetails = (UserDetails) SecurityContextHolder
-                .getContext()
+	@WithMockUser(username = "testId")
+	@Test
+	void 자신의_모든_포스트_조회_동작_확인() {
+		//given
+		PostRegisterRequestDto requestDto = new PostRegisterRequestDto();
+		requestDto.setContent("testContent");
+
+		UserDetails userDetails = (UserDetails) SecurityContextHolder
+				.getContext()
                 .getAuthentication()
                 .getPrincipal();
         postService.register(requestDto, userDetails.getUsername());
